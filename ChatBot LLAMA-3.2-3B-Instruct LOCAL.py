@@ -8,7 +8,7 @@ from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt
 
 # Imposta il percorso corretto del modello Llama scaricato
-MODEL_PATH = "C:/Users/simo-/OneDrive/Desktop/LLama-3.2-3B"
+MODEL_PATH = "PATH/"
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_PATH)
 model = AutoModelForCausalLM.from_pretrained(MODEL_PATH, torch_dtype=torch.float16, device_map="auto")
