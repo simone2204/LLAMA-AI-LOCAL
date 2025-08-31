@@ -1,12 +1,12 @@
 import sys
-import fitz  # Per leggere i PDF
+import fitz
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QPushButton, QWidget, QVBoxLayout, QLineEdit, QTextEdit, QFileDialog, QProgressBar
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 
-# Imposta il percorso corretto del modello Llama scaricato
+# Imposta il percorso corretto del modello Llama scaricato sul proprio desktop
 MODEL_PATH = "C:/Users/simo-/OneDrive/Desktop/LLama-3.2-3B"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -61,26 +61,26 @@ class PdfLoaderThread(QThread):
             num_pages = len(doc)
 
             if num_pages == 0:
-                self.finished.emit("Errore: Il PDF è vuoto o non può essere letto.")  # ✅ Usa self.finished.emit()
+                self.finished.emit("Errore: Il PDF è vuoto o non può essere letto.")
                 return
 
             for i, page in enumerate(doc):
                 text += page.get_text()
                 progress_value = int(((i + 1) / num_pages) * 100)
-                self.progress.emit(progress_value)  # ✅ Usa self.progress.emit()
+                self.progress.emit(progress_value)
                 QApplication.processEvents()
                 self.msleep(50)
 
             if not text.strip():
-                self.finished.emit("Errore: Il PDF non contiene testo leggibile.")  # ✅ Usa self.finished.emit()
+                self.finished.emit("Errore: Il PDF non contiene testo leggibile.")
             else:
-                self.finished.emit(text.strip())  # ✅ Usa self.finished.emit()
+                self.finished.emit(text.strip())
 
         except Exception as e:
-            self.finished.emit(f"Errore nel caricamento del PDF: {e}")  # ✅ Usa self.finished.emit()
+            self.finished.emit(f"Errore nel caricamento del PDF: {e}")
 
 class ChatbotThread(QThread):
-    finished = pyqtSignal(str)  # ✅ Corretto: Segnale per la risposta del chatbot
+    finished = pyqtSignal(str)
 
     def __init__(self, context, question):
         super().__init__()
@@ -91,9 +91,9 @@ class ChatbotThread(QThread):
         """Genera la risposta senza bloccare la GUI."""
         try:
             answer = ask_question(self.context, self.question)
-            self.finished.emit(answer)  # ✅ Usa self.finished.emit() invece di pyqtSignal.emit()
+            self.finished.emit(answer)
         except Exception as e:
-            self.finished.emit(f"Errore nel chatbot: {e}")  # ✅ Usa self.finished.emit()
+            self.finished.emit(f"Errore nel chatbot: {e}")
 
 
 class MainWindow(QMainWindow):
