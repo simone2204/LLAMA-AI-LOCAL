@@ -7,7 +7,7 @@ from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 
 # Imposta il percorso corretto del modello Llama scaricato sul proprio desktop
-MODEL_PATH = "C:/Users/simo-/OneDrive/Desktop/LLama-3.2-3B"
+MODEL_PATH = "C:/your/personal/route/LLama-3.2-3B"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
